@@ -10,9 +10,8 @@ st.sidebar.header('User Input Parameters')
 df1=pd.read_csv("Cleaned_Data_Actual.csv")
 dfu=pd.read_csv("User_USA.csv")
 dfo=pd.read_csv("User_Other.csv")
-df2=pd.read_csv("Zero_Rating.csv")
 df1.drop_duplicates(keep='first', inplace=True)
-df2=df2.drop_duplicates(keep='first')
+
 dfu=dfu.drop_duplicates(keep='first')
 dfo=dfo.drop_duplicates(keep='first')
 
@@ -79,17 +78,6 @@ elif UID in df4['User-ID'].values:
     list1=list(df_user['Book-Title'])
     list2=list(df_reco['Book-Title'])
     reco=[x for x in list2 if x not in list1]
-elif UID in df2['User-ID'].values:
-    df_user=df2[df2['User-ID']==UID]
-    df_user.sort_values('Book-Rating',ascending=False,inplace=True)
-    country=set(df_user['Country'])
-    country_df = df2[df2['Country'] == country]
-    country_df = country_df.sort_values(by=['Book-Rating','Num of ratings','Avg_Rating'],ascending=[False,False,False])
-    list2=country_df['Book-Title'][:300]
-    df_user=df2[df2['User-ID']==UID]
-    list1=list(df_user['Book-Title'])
-    reco_a=[x for x in list2 if x not in list1]
-    reco=reco_a[:11]
 else:
     df_temp=df1.sort_values(by=['Book-Rating','Num of ratings','Avg_Rating'],ascending=[False,False,False])
     df_temp.drop_duplicates(subset='Book-Title',keep='first',inplace=True)
